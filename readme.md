@@ -1,2 +1,1 @@
-#Git aulinhas
-este é um reposiório teste
+Repositorio pra lançar a braba com os arquivos de Estrutura
