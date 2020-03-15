@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "quadrilateros.h"
+#include "math2.h"
 
 /* 
 j = capital * taxa * tempo; <juros simples>
