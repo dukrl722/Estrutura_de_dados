@@ -73,20 +73,17 @@ FINANCA *alloc_finan ()
     return malloc (sizeof (FINANCA));
 }
 
-double area_tri_eql(double lado) {
-    TRI *p_eql = alloc_tri();
+double area_tri_eql(double lado, TRI *p_eql) {
     double area;
 
     p_eql->l = lado;
 
     area = (pow(p_eql->l, 2) * sqrt(3)) / 4;
 
-    free(p_eql);
     return area;
 }
 
-double area_tri_iso(double base, double altura) {
-    TRI *p_iso = alloc_tri();
+double area_tri_iso(double base, double altura, TRI *p_iso) {
     double area;
 
     p_iso->b = base;
@@ -94,12 +91,10 @@ double area_tri_iso(double base, double altura) {
 
     area = ((p_iso->b) * (p_iso->h)) / 2;
 
-    free(p_iso);
     return area;
 }
 
-double area_tri_ret(double base, double lado) {
-    TRI *p_ret = alloc_tri();
+double area_tri_ret(double base, double lado, TRI *p_ret) {
     double altura;
     double area;
 
@@ -109,36 +104,30 @@ double area_tri_ret(double base, double lado) {
     altura = pow(p_ret->l, 2) - (pow(p_ret->b , 2) / 2);
     area = (p_ret->b * altura) / 2;
 
-    free(p_ret);
     return area;
 }
 
-double  area_circle(double raio) {
-    CIRCLE *p_circle = alloc_circle();
+double  area_circle(double raio, CIRCLE *p_circle) {
     double area;
 
     p_circle->r = raio;
 
     area = PI * pow(p_circle->r, 2);
 
-    free(p_circle);
     return area;
 }
 
-double volume_esfera(double raio) {
-    ESPACIAL *p_esf = alloc_espacial();
+double volume_esfera(double raio, ESPACIAL *p_esf) {
     double volume;
 
     p_esf->x = raio;
 
     volume = (4/3) * PI * pow(p_esf->x, 2);
 
-    free(p_esf);
     return volume;
 }
 
-double volume_cone(double raio, double altura) {
-    ESPACIAL *p_cone = alloc_espacial();
+double volume_cone(double raio, double altura, ESPACIAL *p_cone) {
     double volume;
 
     p_cone->x = raio;
@@ -146,12 +135,10 @@ double volume_cone(double raio, double altura) {
 
     volume = (PI * pow(p_cone->x, 2) * p_cone->y) / 3;
 
-    free(p_cone);
     return volume;
 }
 
-double volume_cilindro(double raio, double altura) {
-    ESPACIAL *p_cil = alloc_espacial();
+double volume_cilindro(double raio, double altura, ESPACIAL *p_cil) {
     double volume;
 
     p_cil->x = raio;
@@ -159,66 +146,65 @@ double volume_cilindro(double raio, double altura) {
 
     volume = (PI * pow(p_cil->x, 2) * p_cil->y);
 
-    free(p_cil);
     return volume;
 }
 
-double volume_cubo(double lado) {
-    ESPACIAL *p_cubo = alloc_espacial();
+double volume_cubo(double lado, ESPACIAL *p_cubo) {
     double volume;
 
     p_cubo->x = lado;
 
     volume = pow(p_cubo->x, 3);
 
-    free(p_cubo);
     return volume;
 }
-double volume_piramide(double altura, double n_base) {
-    ESPACIAL *p_pri = alloc_espacial();
-    double volume;
-    double valor = 0;
+double volume_piramide(double altura, double n_base, ESPACIAL *p_pri) {
+     double volume;
+     double valor = 0;
+     POLI *p_quadrado = alloc_poli ();
+     TRI *p_eql = alloc_tri ();
+     POLI *p_polig = alloc_poli ();
 
-    p_pri->x = altura;
+     p_pri->x = altura;
 
-    if (n_base == 3) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = area_tri_eql(lado);
-    }
-    else if (n_base == 4) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = area_quadrado(lado);
-    }
-    else if (n_base >= 5) {
-        double lado, n_lado, apot;
-        printf ("Digite os dados da base da piramide: \n");
-        scanf("%lf %lf %lf", & lado, & n_lado, & apot);
-        valor = area_polig_regular(lado, n_lado, apot);
-    }
+     if (n_base == 3) {
+         double lado;
+         scanf("%lf", & lado);
+         valor = area_tri_eql(lado, p_eql);
+     }
+     else if (n_base == 4) {
+         double lado;
+         scanf("%lf", & lado);
+         valor = area_quadrado(lado, p_quadrado);
+     }
+     else if (n_base >= 5) {
+         double lado, n_lado, apot;
+         printf ("Digite os dados da base da piramide: \n");
+         scanf("%lf %lf %lf", & lado, & n_lado, & apot);
+         valor = area_polig_regular(lado, n_lado, apot, p_polig);
+     }
 
-    volume = valor * p_pri->x;
+     volume = valor * p_pri->x;
 
-    free(p_pri);
-    return volume;
+    free (p_quadrado);
+    free (p_eql);
+    free (p_polig);
+
+     return volume;
 }
 
-double area_quadrado (double lado)
+double area_quadrado (double lado, POLI *p_quadrado)
 {
-    POLI *p_quadrado = alloc_poli ();
     double area;
 
     p_quadrado->quad.h = lado;
     area = (p_quadrado->quad.h) * (p_quadrado->quad.h);
 
-    free (p_quadrado);
     return area;
 }
 
-double area_trapezio (double b1, double b2, double h)
+double area_trapezio (double b1, double b2, double h, POLI *p_trapezio)
 {
-    POLI *p_trapezio = alloc_poli ();
     double area;
 
     p_trapezio->quad.b = b1;
@@ -226,14 +212,11 @@ double area_trapezio (double b1, double b2, double h)
     p_trapezio->quad.h = h;
     area = (( (p_trapezio->quad.b) + (p_trapezio->quad.b2) ) * p_trapezio->quad.h) / 2;
 
-    free (p_trapezio);
-
     return area;
 }
 
-double area_losango (double b1, double b2)
+double area_losango (double b1, double b2, POLI *p_losango)
 {
-    POLI *p_losango = alloc_poli ();
     double area;
 
     p_losango->quad.b = b1;
@@ -241,14 +224,11 @@ double area_losango (double b1, double b2)
 
     area = (p_losango->quad.b + p_losango->quad.b2) / 2;
 
-    free (p_losango);
-
     return area;
 }
 
-double area_polig_regular (double lados, double n_lado, double apot)
+double area_polig_regular (double lados, double n_lado, double apot, POLI *p_polig)
 {
-    POLI *p_polig = alloc_poli ();
     double area;
 
     p_polig->n = lados;
@@ -257,14 +237,11 @@ double area_polig_regular (double lados, double n_lado, double apot)
 
     area = (p_polig->n * p_polig->comp_n * p_polig->h) / 2;
 
-    free (p_polig);
-
     return area;
 }
 
-double juros_simp (double capital, double taxa, double tempo)
+double juros_simp (double capital, double taxa, double tempo, FINANCA *p_juros)
 {
-    FINANCA *p_juros = alloc_finan ();
     double result;
 
     p_juros->capital = capital;
@@ -273,14 +250,11 @@ double juros_simp (double capital, double taxa, double tempo)
 
     result = p_juros->tempo * p_juros->taxa * p_juros->capital;
 
-    free (p_juros);
-
     return result;
 }
 
-double mont_simp (double capital, double juros)
+double mont_simp (double capital, double juros, FINANCA *p_mont)
 {
-    FINANCA *p_mont = alloc_finan ();
     double result;
 
     p_mont->capital = capital;
@@ -288,14 +262,11 @@ double mont_simp (double capital, double juros)
 
     result = p_mont->capital + p_mont->juros;
 
-    free (p_mont);
-
     return result;
 }
 
-double mont_comp (double capital, double taxa, double tempo)
+double mont_comp (double capital, double taxa, double tempo, FINANCA *p_mont)
 {
-    FINANCA *p_mont = alloc_finan ();
     double result;
 
     p_mont->capital = capital;
@@ -303,8 +274,6 @@ double mont_comp (double capital, double taxa, double tempo)
     p_mont->tempo = tempo;
 
     result = p_mont->capital * pow ( 1 + p_mont->taxa, p_mont->tempo);
-
-    free (p_mont);
 
     return result;
 }
