@@ -4,6 +4,9 @@
 typedef struct _tri TRI;
 typedef struct _circle CIRCLE;
 typedef struct _espacial ESPACIAL;
+typedef struct _quadri QUADRI;
+typedef struct _poli POLI;
+typedef struct _financa FINANCA;
 //----------------------------CIRCULAR--------------------------------
 
 /*a função area_circle faz o calculo da área de um circulo sendo necessários
@@ -11,10 +14,6 @@ apenas 1 parametro: o raio ao quadrado, pois o valor de pi já é pré-definido*
 double area_circle (double x);
 
 //----------------------------3 LADOS--------------------------------
-
-/*a função area_tri_esc faz o calculo da área de um triangulo escaleno
-sendo necessários 3 parametros, por conta dos seus 3 lados diferentes*/
-double area_tri_esc (double h, double b, double l);
 
 /*a função area_tri_ret faz o calculo da area de um triangulo retângulo
 sendo necessários 2 parametros, por conta do seu angulo reto, que não irá
@@ -36,6 +35,15 @@ dois também*/
 double area_tri_eql (double l);
 
 //----------------------------4 LADOS--------------------------------
+
+double area_quadrado (double lado);
+
+double area_trapezio (double b1, double b2, double h);
+
+double area_losango (double b1, double b2);
+
+double area_polig_regular (double lados, double n_lado, double apot);
+
 //----------------------------ESPACIAL--------------------------------
 
 /*a função volume_esfera faz o calculo do volume usando os valores de pi, e
@@ -62,4 +70,13 @@ double volume_cubo (double x);
 base e da altura. Uma observação a ser feita, é o fato de que o paralelepipedo
  é, nada mais nada menos, do que um prisma quadrangular*/
 double volume_prisma (double x, double y);
+
+//----------------------------FINANCEIRO--------------------------------
+
+double juros_simp (double capital, double taxa, double tempo);
+
+double mont_simp (double capital, double juros);
+
+double mont_comp (double capital, double taxa, double tempo);
+
 #endif

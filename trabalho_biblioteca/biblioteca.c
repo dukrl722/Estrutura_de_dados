@@ -4,6 +4,37 @@
 #include <math.h>
 #define PI 3.14
 
+/*
+j = capital * taxa * tempo; <juros simples>
+M = capital + juros simples;
+M = capital * (1 + taxa)^tempo; <montante de juros compostos>
+*/
+
+struct _financa
+{
+    double mont;
+    double juros;
+    double taxa;
+    double tempo;
+    double capital;
+}; //Tipo _financa definido como FINANCA no arquivo .h
+
+
+struct _quadri
+{
+    double b;
+    double b2;
+    double h;
+}; //Tipo _quadri definido como QUADRI no arquivo .h
+
+struct _poli
+{
+    QUADRI quad;
+    double comp_n;
+    double n;
+    double h;
+}; //Tipo _poli definido como POLI no arquivo .h
+
 struct _tri {
     TRI triangulo;
     double h;
@@ -35,8 +66,14 @@ ESPACIAL *alloc_espacial() {
     return malloc (sizeof(ESPACIAL));
 }
 
-double area_tri_esc(double h, double l, double b) {
+POLI *alloc_poli ()
+{
+    return malloc (sizeof (POLI));
+}
 
+FINANCA *alloc_finan ()
+{
+    return malloc (sizeof (FINANCA));
 }
 
 double area_tri_eql(double lado) {
@@ -144,19 +181,13 @@ double volume_piramide(double altura, double n_base) {
     else if (n_base == 4) {
         double lado;
         scanf("%lf", & lado);
-        valor = //função aqui
+        valor = area_quadrado(lado);
     }
-    else if (n_base == 5) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = //função aqui
+    else if (n_base >= 5) {
+        double lado, n_lado, apot;
+        scanf("%lf %lf %lf", & lado, & n_lado, & apot);
+        valor = area_polig_regular(lado, n_lado, apot);
     }
-    else if (n_base == 6) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = //função aqui
-    }
-
     volume = (1/3) * valor * p_pir->esp.x;
 
     free(p_pir);
@@ -189,21 +220,122 @@ double volume_piramide(double altura, double n_base) {
     else if (n_base == 4) {
         double lado;
         scanf("%lf", & lado);
-        valor = //função aqui
+        valor = area_quadrado(lado);
     }
-    else if (n_base == 5) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = //função aqui
-    }
-    else if (n_base == 6) {
-        double lado;
-        scanf("%lf", & lado);
-        valor = //função aqui
+    else if (n_base >= 5) {
+        double lado, n_lado, apot;
+        printf ("Digite os dados da base da piramide: \n");
+        scanf("%lf %lf %lf", & lado, & n_lado, & apot);
+        valor = area_polig_regular(lado, n_lado, apot);
     }
 
     volume = valor * p_pri->esp.x;
 
     free(p_pri);
     return volume;
+}
+
+double area_quadrado (double lado)
+{
+    POLI *p_quadrado = alloc_poli ();
+    double area;
+
+    p_quadrado->quad.h = lado;
+    area = (p_quadrado->quad.h) * (p_quadrado->quad.h);
+
+    free (p_quadrado);
+    return area;
+}
+
+double area_trapezio (double b1, double b2, double h)
+{
+    POLI *p_trapezio = alloc_poli ();
+    double area;
+
+    p_trapezio->quad.b = b1;
+    p_trapezio->quad.b2 = b2;
+    p_trapezio->quad.h = h;
+    area = (( (p_trapezio->quad.b) + (p_trapezio->quad.b2) ) * p_trapezio->quad.h) / 2;
+
+    free (p_trapezio);
+
+    return area;
+}
+
+double area_losango (double b1, double b2)
+{
+    POLI *p_losango = alloc_poli ();
+    double area;
+
+    p_losango->quad.b = b1;
+    p_losango->quad.b2 = b2;
+
+    area = (p_losango->quad.b + p_losango->quad.b2) / 2;
+
+    free (p_losango);
+
+    return area;
+}
+
+double area_polig_regular (double lados, double n_lado, double apot)
+{
+    POLI *p_polig = alloc_poli ();
+    double area;
+
+    p_polig->n = lados;
+    p_polig->comp_n = n_lado;
+    p_polig->h = apot;
+
+    area = (p_polig->n * p_polig->comp_n * p_polig->h) / 2;
+
+    free (p_polig);
+
+    return area;
+}
+
+double juros_simp (double capital, double taxa, double tempo)
+{
+    FINANCA *p_juros = alloc_finan ();
+    double result;
+
+    p_juros->capital = capital;
+    p_juros->taxa = taxa;
+    p_juros->tempo = tempo;
+
+    result = p_juros->tempo * p_juros->taxa * p_juros->capital;
+
+    free (p_juros);
+
+    return result;
+}
+
+double mont_simp (double capital, double juros)
+{
+    FINANCA *p_mont = alloc_finan ();
+    double result;
+
+    p_mont->capital = capital;
+    p_mont->juros = juros;
+
+    result = p_mont->capital + p_mont->juros;
+
+    free (p_mont);
+
+    return result;
+}
+
+double mont_comp (double capital, double taxa, double tempo)
+{
+    FINANCA *p_mont = alloc_finan ();
+    double result;
+
+    p_mont->capital = capital;
+    p_mont->taxa = taxa;
+    p_mont->tempo = tempo;
+
+    result = p_mont->capital * pow ( 1 + p_mont->taxa, p_mont->tempo);
+
+    free (p_mont);
+
+    return result;
 }
