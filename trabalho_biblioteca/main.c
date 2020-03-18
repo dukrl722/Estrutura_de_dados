@@ -5,7 +5,7 @@
 
 int main ()
 {
-    int opc;
+    int opc, numero;
     double a, b, c, d;
 
     while (1)
@@ -29,7 +29,7 @@ int main ()
                 printf ("equilatero - 1\n");
                 printf ("isosceles - 2\n");
                 printf ("reto - 3\n");
-                int numero;
+    
                 scanf ("%i", &numero);
                 if (numero == 1) {
                     scanf ("%lf", &a);
@@ -57,7 +57,7 @@ int main ()
                 printf ("quadrado - 1\n");
                 printf ("trapezio - 2\n");
                 printf ("losango - 3\n");
-                int numero;
+                
                 scanf ("%i", &numero);
                 if (numero == 1) {
                     scanf ("%lf", &a);
@@ -110,7 +110,7 @@ int main ()
                 printf ("cilindro - 3\n");
                 printf ("cone - 4\n");
                 printf ("esfera - 5\n");
-                int numero;
+                
                 scanf ("%i", &numero);
                 if (numero == 1) {
                     scanf ("%lf %lf", &a, &b);
